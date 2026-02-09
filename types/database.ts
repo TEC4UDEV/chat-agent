@@ -15,6 +15,8 @@ export type ConfiguracoesCliente = {
   cor: string | null;
   modelo_ai: string | null;
   imagem_path: string | null;
+  account: string | null;
+  dominio: string | null;
   created_at: string | null;
   updated_at: string | null;
 };

@@ -11,6 +11,8 @@ export type ConfiguracoesFormState = {
   cor: string;
   modelo_ai: string;
   imagem_path: string;
+  account: string;
+  dominio: string;
 };
 
 type FormState = { error: string | null; success?: boolean };
@@ -26,6 +28,8 @@ export async function submitConfiguracoes(
     cor: (formData.get("cor") as string) ?? "",
     modelo_ai: (formData.get("modelo_ai") as string) ?? "",
     imagem_path: (formData.get("imagem_path") as string) ?? "",
+    account: (formData.get("account") as string) ?? "",
+    dominio: (formData.get("dominio") as string) ?? "",
   });
   if (result.error) return { error: result.error };
   revalidatePath("/configuracoes");
@@ -68,6 +72,8 @@ export async function saveConfiguracoes(
     cor: form.cor || null,
     modelo_ai: form.modelo_ai || null,
     imagem_path: form.imagem_path || null,
+    account: form.account || null,
+    dominio: form.dominio || null,
     updated_at: now,
   };
 

@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getConfiguracoes } from "./actions";
 import { ConfiguracoesAtual } from "./configuracoes-atual";
 import { ConfiguracoesForm } from "./configuracoes-form";
+import { EmbedWidget } from "./embed-widget";
 
 export default async function ConfiguracoesPage() {
   const supabase = await createClient();
@@ -20,7 +21,7 @@ export default async function ConfiguracoesPage() {
         <ConfiguracoesAtual config={config} />
       </div>
 
-      <section>
+      <section className="mb-8">
         <h2 className="mb-4 text-lg font-semibold text-zinc-900 dark:text-zinc-50">
           Editar configurações
         </h2>
@@ -33,7 +34,19 @@ export default async function ConfiguracoesPage() {
             cor: config?.cor ?? "",
             modelo_ai: config?.modelo_ai ?? "",
             imagem_path: config?.imagem_path ?? "",
+            account: config?.account ?? "",
+            dominio: config?.dominio ?? "",
           }}
+        />
+      </section>
+
+      <section>
+        <EmbedWidget
+          nome={config?.nome ?? ""}
+          account={config?.account ?? ""}
+          cor={config?.cor ?? ""}
+          descricao={config?.descricao ?? ""}
+          imagem_path={config?.imagem_path ?? ""}
         />
       </section>
     </div>

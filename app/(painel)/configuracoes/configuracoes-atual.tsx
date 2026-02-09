@@ -28,6 +28,8 @@ export function ConfiguracoesAtual({ config }: { config: ConfiguracoesCliente | 
 
   const hasAny =
     config.nome ||
+    config.account ||
+    config.dominio ||
     config.descricao ||
     config.cor ||
     config.modelo_ai ||
@@ -55,6 +57,22 @@ export function ConfiguracoesAtual({ config }: { config: ConfiguracoesCliente | 
               Nome
             </dt>
             <dd className="mt-0.5 text-zinc-900 dark:text-zinc-100">{config.nome}</dd>
+          </div>
+        )}
+        {config.account && (
+          <div>
+            <dt className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+              Account
+            </dt>
+            <dd className="mt-0.5 font-mono text-zinc-900 dark:text-zinc-100">{config.account}</dd>
+          </div>
+        )}
+        {config.dominio && (
+          <div>
+            <dt className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+              Domínio do site
+            </dt>
+            <dd className="mt-0.5 font-mono text-zinc-900 dark:text-zinc-100">{config.dominio}</dd>
           </div>
         )}
         {config.descricao && (
