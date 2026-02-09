@@ -27,3 +27,14 @@ export type Thread = {
   mcp_thread_id: string | null;
   updated_at: string | null;
 };
+
+export type History = {
+  id: string;
+  user_id: string | null;
+  data_pagamento: string | null;
+  valor: number | null;
+  retirada: boolean | null;
+  created_at: string | null;
+  updated_at: string | null;
+  thread_id: string | null;
+};
