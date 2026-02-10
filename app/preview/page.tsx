@@ -16,6 +16,7 @@ function PreviewContent() {
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const loadedRef = useRef(false);
+  const isEmbed = searchParams.get("embed") === "1";
 
   const scriptUrl = searchParams.get("scriptUrl");
   const apiUrl = searchParams.get("apiUrl");
@@ -115,16 +116,32 @@ function PreviewContent() {
     );
   }
 
+  // Embed: só o widget (conteúdo mínimo). Fora do embed: aviso discreto.
   return (
-    <div className="min-h-[320px] rounded-xl border border-zinc-200 bg-zinc-50/50 dark:border-zinc-600 dark:bg-zinc-800/50">
-      <p className="p-3 text-center text-xs text-zinc-500 dark:text-zinc-400">
-        O widget aparece no canto da tela. Clique no botão de chat para testar.
-      </p>
+    <div className="min-h-[320px]">
+      {!isEmbed && (
+        <p className="p-3 text-center text-xs text-zinc-500 dark:text-zinc-400">
+          O widget aparece no canto da tela. Clique no botão de chat para testar.
+        </p>
+      )}
     </div>
   );
 }
 
-export default function PreviewPage() {
+function PreviewContentWrapper() {
+  const searchParams = useSearchParams();
+  const isEmbed = searchParams.get("embed") === "1";
+
+  if (isEmbed) {
+    return (
+      <div className="min-h-full min-w-full bg-transparent">
+        <Suspense fallback={<div className="min-h-[320px] animate-pulse " />}>
+          <PreviewContent />
+        </Suspense>
+      </div>
+    );
+  }
+
   return (
     <div className="p-6">
       <div className="mb-4 flex items-center gap-3">
@@ -143,4 +160,8 @@ export default function PreviewPage() {
       </Suspense>
     </div>
   );
+}
+
+export default function PreviewPage() {
+  return <PreviewContentWrapper />;
 }

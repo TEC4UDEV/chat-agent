@@ -50,159 +50,176 @@ export function ConfiguracoesForm({
     else setPreviewUrl(initial.imagem_path || null);
   };
 
+  const inputClass =
+    "w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-zinc-900 placeholder-zinc-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100";
+  const labelClass = "mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300";
+
   return (
-    <form action={formAction} onSubmit={handleSubmit} className="max-w-xl space-y-5">
+    <form action={formAction} onSubmit={handleSubmit} className="space-y-8">
       {initial.id && <input type="hidden" name="id" value={initial.id} readOnly />}
       <input type="hidden" name="imagem_path" defaultValue={initial.imagem_path} />
       {state.error && (
-        <div className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700 dark:bg-red-900/20 dark:text-red-400">
+        <div className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700 dark:bg-red-900/20 dark:text-red-400">
           {state.error}
         </div>
       )}
       {uploadError && (
-        <div className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700 dark:bg-red-900/20 dark:text-red-400">
+        <div className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700 dark:bg-red-900/20 dark:text-red-400">
           {uploadError}
         </div>
       )}
       {state.success && !state.error && (
-        <div className="rounded-lg bg-green-50 px-4 py-3 text-sm text-green-700 dark:bg-green-900/20 dark:text-green-400">
-          Configurações salvas.
+        <div className="rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400">
+          Configurações salvas. O preview ao lado será atualizado.
         </div>
       )}
 
-      <div>
-        <label htmlFor="nome" className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-          Nome
-        </label>
-        <input
-          id="nome"
-          name="nome"
-          type="text"
-          defaultValue={initial.nome}
-          className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-zinc-900 placeholder-zinc-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100"
-          placeholder="Nome da configuração"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="account" className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-          Account
-        </label>
-        <input
-          id="account"
-          name="account"
-          type="text"
-          defaultValue={initial.account}
-          className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-zinc-900 placeholder-zinc-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100"
-          placeholder="ex: minha-loja (usado no widget)"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="dominio" className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-          Domínio do site
-        </label>
-        <input
-          id="dominio"
-          name="dominio"
-          type="text"
-          defaultValue={initial.dominio}
-          className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-zinc-900 placeholder-zinc-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100"
-          placeholder="ex: www.minhaloja.com.br"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="descricao" className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-          Mensagem inicial do chat bot
-        </label>
-        <textarea
-          id="descricao"
-          name="descricao"
-          rows={3}
-          defaultValue={initial.descricao}
-          className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-zinc-900 placeholder-zinc-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100"
-          placeholder="Descrição"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="cor_text" className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-          Cor
-        </label>
-        <div className="flex items-center gap-2">
+      {/* Identidade */}
+      <section className="space-y-4">
+        <h3 className="border-b border-zinc-200 pb-2 text-sm font-semibold uppercase tracking-wide text-zinc-500 dark:border-zinc-600 dark:text-zinc-400">
+          Identidade
+        </h3>
+        <div>
+          <label htmlFor="nome" className={labelClass}>Nome do bot</label>
           <input
-            id="cor_picker"
-            type="color"
-            defaultValue={initial.cor || "#3b82f6"}
-            className="h-10 w-14 cursor-pointer rounded border border-zinc-300 dark:border-zinc-600"
-            onChange={(e) => {
-              const text = document.getElementById("cor_text") as HTMLInputElement;
-              if (text) text.value = e.target.value;
-            }}
-          />
-          <input
-            id="cor_text"
-            name="cor"
+            id="nome"
+            name="nome"
             type="text"
-            defaultValue={initial.cor || "#3b82f6"}
-            onChange={(e) => {
-              const picker = document.getElementById("cor_picker") as HTMLInputElement;
-              if (/^#[0-9A-Fa-f]{6}$/.test(e.target.value) && picker) picker.value = e.target.value;
-            }}
-            className="flex-1 rounded-lg border border-zinc-300 bg-white px-3 py-2 text-zinc-900 placeholder-zinc-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100"
-            placeholder="#3b82f6"
+            defaultValue={initial.nome}
+            className={inputClass}
+            placeholder="ex: Assistente da Loja"
           />
         </div>
-      </div>
-
-      <div>
-        <label htmlFor="modelo_ai" className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-          Modelo de IA
-        </label>
-        <input
-          id="modelo_ai"
-          name="modelo_ai"
-          type="text"
-          defaultValue={initial.modelo_ai}
-          className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-zinc-900 placeholder-zinc-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100"
-          placeholder="ex: gpt-4, Claude, etc."
-        />
-      </div>
-
-      <div>
-        <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-          Imagem
-        </label>
-        <p className="mb-2 text-xs text-zinc-500 dark:text-zinc-400">
-          JPEG, PNG, GIF ou WebP. Máximo 5MB.
-        </p>
-        {previewUrl && (
-          <div className="mb-2">
-            <img
-              src={previewUrl}
-              alt="Preview"
-              className="h-32 w-32 rounded-lg border border-zinc-200 object-cover dark:border-zinc-600"
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label htmlFor="account" className={labelClass}>Account (widget)</label>
+            <input
+              id="account"
+              name="account"
+              type="text"
+              defaultValue={initial.account}
+              className={inputClass}
+              placeholder="minha-loja"
             />
           </div>
-        )}
-        <input
-          ref={fileInputRef}
-          type="file"
-          name="imagem_file"
-          accept="image/jpeg,image/png,image/gif,image/webp"
-          onChange={handleFileChange}
-          className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-zinc-900 file:mr-2 file:rounded file:border-0 file:bg-blue-50 file:px-3 file:py-1 file:text-sm file:font-medium file:text-blue-700 dark:border-zinc-600 dark:bg-zinc-800 dark:file:bg-blue-900/30 dark:file:text-blue-300"
-        />
-      </div>
+          <div>
+            <label htmlFor="dominio" className={labelClass}>Domínio do site</label>
+            <input
+              id="dominio"
+              name="dominio"
+              type="text"
+              defaultValue={initial.dominio}
+              className={inputClass}
+              placeholder="www.minhaloja.com.br"
+            />
+          </div>
+        </div>
+      </section>
 
-      <button
-        type="submit"
-        disabled={isPending}
-        className="rounded-lg bg-blue-600 px-5 py-2.5 font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
-      >
-        {isPending ? "Salvando…" : "Salvar"}
-      </button>
+      {/* Mensagem inicial */}
+      <section className="space-y-4">
+        <h3 className="border-b border-zinc-200 pb-2 text-sm font-semibold uppercase tracking-wide text-zinc-500 dark:border-zinc-600 dark:text-zinc-400">
+          Mensagem inicial
+        </h3>
+        <div>
+          <label htmlFor="descricao" className={labelClass}>
+            Texto que o usuário vê ao abrir o chat
+          </label>
+          <textarea
+            id="descricao"
+            name="descricao"
+            rows={3}
+            defaultValue={initial.descricao}
+            className={inputClass}
+            placeholder="Olá! Como posso ajudar você hoje?"
+          />
+        </div>
+      </section>
+
+      {/* Aparência */}
+      <section className="space-y-4">
+        <h3 className="border-b border-zinc-200 pb-2 text-sm font-semibold uppercase tracking-wide text-zinc-500 dark:border-zinc-600 dark:text-zinc-400">
+          Aparência
+        </h3>
+        <div>
+          <label htmlFor="cor_text" className={labelClass}>Cor do tema</label>
+          <div className="flex items-center gap-3">
+            <input
+              id="cor_picker"
+              type="color"
+              defaultValue={initial.cor || "#3b82f6"}
+              className="h-11 w-14 cursor-pointer rounded-lg border border-zinc-300 dark:border-zinc-600"
+              onChange={(e) => {
+                const text = document.getElementById("cor_text") as HTMLInputElement;
+                if (text) text.value = e.target.value;
+              }}
+            />
+            <input
+              id="cor_text"
+              name="cor"
+              type="text"
+              defaultValue={initial.cor || "#3b82f6"}
+              onChange={(e) => {
+                const picker = document.getElementById("cor_picker") as HTMLInputElement;
+                if (/^#[0-9A-Fa-f]{6}$/.test(e.target.value) && picker) picker.value = e.target.value;
+              }}
+              className={`flex-1 ${inputClass}`}
+              placeholder="#3b82f6"
+            />
+          </div>
+        </div>
+        <div>
+          <label className={labelClass}>Avatar do bot</label>
+          <p className="mb-2 text-xs text-zinc-500 dark:text-zinc-400">
+            JPEG, PNG, GIF ou WebP. Máximo 5MB.
+          </p>
+          {previewUrl && (
+            <div className="mb-3">
+              <img
+                src={previewUrl}
+                alt="Avatar"
+                className="h-24 w-24 rounded-xl border border-zinc-200 object-cover dark:border-zinc-600"
+              />
+            </div>
+          )}
+          <input
+            ref={fileInputRef}
+            type="file"
+            name="imagem_file"
+            accept="image/jpeg,image/png,image/gif,image/webp"
+            onChange={handleFileChange}
+            className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-zinc-900 file:mr-2 file:rounded file:border-0 file:bg-blue-50 file:px-3 file:py-1 file:text-sm file:font-medium file:text-blue-700 dark:border-zinc-600 dark:bg-zinc-800 dark:file:bg-blue-900/30 dark:file:text-blue-300"
+          />
+        </div>
+      </section>
+
+      {/* IA */}
+      <section className="space-y-4">
+        <h3 className="border-b border-zinc-200 pb-2 text-sm font-semibold uppercase tracking-wide text-zinc-500 dark:border-zinc-600 dark:text-zinc-400">
+          Modelo de IA
+        </h3>
+        <div>
+          <label htmlFor="modelo_ai" className={labelClass}>Modelo</label>
+          <input
+            id="modelo_ai"
+            name="modelo_ai"
+            type="text"
+            defaultValue={initial.modelo_ai}
+            className={inputClass}
+            placeholder="ex: gpt-4, Claude, etc."
+          />
+        </div>
+      </section>
+
+      <div className="pt-2">
+        <button
+          type="submit"
+          disabled={isPending}
+          className="rounded-xl bg-blue-600 px-6 py-3 font-medium text-white shadow-sm transition-colors hover:bg-blue-700 disabled:opacity-50"
+        >
+          {isPending ? "Salvando…" : "Salvar configurações"}
+        </button>
+      </div>
     </form>
   );
 }
