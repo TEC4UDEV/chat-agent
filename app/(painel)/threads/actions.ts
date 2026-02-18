@@ -5,6 +5,34 @@ import type { Thread } from "@/types/database";
 
 const PAGE_SIZE = 10;
 
+const CHAT_API_URL = process.env.CHAT_API_URL ?? process.env.NEXT_PUBLIC_CHAT_API_URL ?? "http://localhost:3000";
+
+export type ThreadMessage = {
+  role: "user" | "assistant";
+  content: string;
+};
+
+export type ThreadDetail = {
+  id: string;
+  messages: ThreadMessage[];
+  createdAt: string;
+  updatedAt: string;
+};
+
+export async function getThreadDetail(threadId: string): Promise<ThreadDetail | null> {
+  try {
+    const base = CHAT_API_URL.replace(/\/$/, "");
+    const res = await fetch(`${base}/thread?threadId=${encodeURIComponent(threadId)}`, {
+      cache: "no-store",
+    });
+    if (!res.ok) return null;
+    const data = (await res.json()) as ThreadDetail;
+    return data;
+  } catch {
+    return null;
+  }
+}
+
 export type ThreadsResult = {
   threads: Thread[];
   total: number;

@@ -1,5 +1,7 @@
+import Link from "next/link";
 import { getThreads } from "./actions";
 import { ThreadsPagination } from "./threads-pagination";
+import { SquareArrowOutUpRightIcon } from "lucide-react";
 
 function formatDate(iso: string | null): string {
   if (!iso) return "—";
@@ -69,25 +71,36 @@ export default async function ThreadsPage({
                 </tr>
               </thead>
               <tbody>
-                {threads.map((thread) => (
-                  <tr
-                    key={thread.id}
-                    className="border-b border-zinc-100 last:border-0 dark:border-zinc-700"
-                  >
-                    <td className="px-4 py-3 text-zinc-600 dark:text-zinc-300">
-                      {formatDate(thread.created_at)}
-                    </td>
-                    <td className="px-4 py-3 text-zinc-600 dark:text-zinc-300">
-                      {formatCusto(thread.custo)}
-                    </td>
-                    <td className="max-w-[200px] truncate px-4 py-3 font-mono text-xs text-zinc-500 dark:text-zinc-400" title={thread.mcp_thread_id ?? undefined}>
-                      {thread.mcp_thread_id ?? "—"}
-                    </td>
-                    <td className="max-w-[120px] truncate px-4 py-3 font-mono text-xs text-zinc-500 dark:text-zinc-400" title={thread.id}>
-                      {thread.id.slice(0, 8)}…
-                    </td>
-                  </tr>
-                ))}
+                {threads.map((thread) => {
+                  const href = thread.mcp_thread_id
+                    ? `/threads/${encodeURIComponent(thread.mcp_thread_id)}`
+                    : null;
+                  return (
+                    <tr
+                      key={thread.id}
+                      className={`border-b border-zinc-100 last:border-0 dark:border-zinc-700 ${href ? "hover:bg-zinc-50 dark:hover:bg-zinc-700/50" : ""
+                        }`}
+                    >
+                      <td className="px-4 py-3 text-zinc-600 dark:text-zinc-300">
+                        {formatDate(thread.created_at)}
+                      </td>
+                      <td className="px-4 py-3 text-zinc-600 dark:text-zinc-300">
+                        {formatCusto(thread.custo)}
+                      </td>
+                      <td className="max-w-[200px] truncate px-4 py-3 font-mono text-xs text-zinc-500 dark:text-zinc-400" title={thread.mcp_thread_id ?? undefined}>
+                        {thread.mcp_thread_id ?? "—"}
+                      </td>
+                      <td className="max-w-[120px] truncate px-4 py-3 font-mono text-xs text-zinc-500 dark:text-zinc-400" title={thread.id}>
+                        {thread.id.slice(0, 8)}…
+                      </td>
+                      <td className="max-w-[120px] truncate px-4 py-3 font-mono text-xs text-zinc-500 dark:text-zinc-400" title={thread.id}>
+                        <Link href={`/threads/${encodeURIComponent(thread.mcp_thread_id ?? "")}`} className="block truncate text-blue-600 hover:underline dark:text-blue-400 bg-zinc-500 p-1 rounded-md w-min">
+                          <SquareArrowOutUpRightIcon className="h-4 w-4 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200" />
+                        </Link>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
