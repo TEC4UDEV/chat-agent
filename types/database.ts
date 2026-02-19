@@ -39,4 +39,5 @@ export type History = {
   created_at: string | null;
   updated_at: string | null;
   thread_id: string | null;
+  mp_payment_id: string | null;
 };

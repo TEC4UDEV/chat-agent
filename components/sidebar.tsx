@@ -52,7 +52,7 @@ function SettingsIcon({ className }: { className?: string }) {
   );
 }
 
-export function Sidebar({ userEmail }: { userEmail: string }) {
+export function Sidebar({ userEmail, creditos }: { userEmail: string; creditos: number }) {
   const pathname = usePathname();
 
   return (
@@ -80,9 +80,17 @@ export function Sidebar({ userEmail }: { userEmail: string }) {
         })}
       </nav>
       <div className="border-t border-zinc-200 p-3 dark:border-zinc-700">
-        <p className="truncate px-3 py-1 text-xs text-zinc-500 dark:text-zinc-400" title={userEmail}>
-          {userEmail}
-        </p>
+        <div className="mb-1 flex items-center justify-between gap-2 px-3 py-1">
+          <p className="truncate text-xs text-zinc-500 dark:text-zinc-400" title={userEmail}>
+            {userEmail}
+          </p>
+          <span className="flex shrink-0 items-center gap-1 rounded-full bg-blue-50 px-2 py-0.5 text-xs font-semibold text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
+            <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            R$ {Number(creditos).toFixed(2).replace(".", ",")}
+          </span>
+        </div>
         <form action="/auth/signout" method="post" className="mt-2">
           <button
             type="submit"

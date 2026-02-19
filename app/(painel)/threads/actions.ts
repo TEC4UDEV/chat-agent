@@ -25,8 +25,10 @@ export async function getThreadDetail(threadId: string): Promise<ThreadDetail | 
     const res = await fetch(`${base}/thread?threadId=${encodeURIComponent(threadId)}`, {
       cache: "no-store",
     });
+    console.log("res", res.status);
     if (!res.ok) return null;
     const data = (await res.json()) as ThreadDetail;
+    console.log("data", data);
     return data;
   } catch {
     return null;
