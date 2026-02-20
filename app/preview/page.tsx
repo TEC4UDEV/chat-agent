@@ -163,5 +163,9 @@ function PreviewContentWrapper() {
 }
 
 export default function PreviewPage() {
-  return <PreviewContentWrapper />;
+  return (
+    <Suspense fallback={<div className="min-h-screen animate-pulse bg-zinc-50 dark:bg-zinc-900" />}>
+      <PreviewContentWrapper />
+    </Suspense>
+  );
 }
