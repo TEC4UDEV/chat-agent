@@ -35,7 +35,7 @@ function LoginForm() {
       setMessage({ type: "error", text: profileError });
       return;
     }
-    router.push("/");
+    router.push("/threads");
     router.refresh();
   };
 
